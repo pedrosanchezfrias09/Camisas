@@ -115,10 +115,53 @@ body {
   .whatsapp:hover {
     background-color: #1ebe5d;
   }
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.9);
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* cuando el modal está abierto, aplicamos flex */
+  .modal.mostrar {
+    display: flex;
+    animation: fadeIn 0.3s ease forwards;
+  }
+  
+  .modal-content {
+    max-width: 90%;
+    max-height: 90%;
+    animation: zoomIn 0.3s;
+    border-radius: 10px;
+  }
+  
+  .close {
+    position: absolute;
+    top: 20px;
+    right: 35px;
+    font-size: 40px;
+    color: white;
+    cursor: pointer;
+    z-index: 10001;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  
   
   @media (max-width: 600px) {
     .tarjeta {
       min-width: 60vw;
     }
   }
+  
   
