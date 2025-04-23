@@ -33,3 +33,31 @@ document.querySelectorAll('.tarjeta').forEach(tarjeta => {
     window.open(url, '_blank');
   }
   
+// Mostrar el modal
+document.querySelectorAll('.clickable-image').forEach(img => {
+  img.addEventListener('click', function () {
+    const modal = document.getElementById("imageModal");
+    const modalImg = document.getElementById("modalImage");
+    modal.classList.add("mostrar");
+    modalImg.src = this.src;
+  });
+});
+
+// Cerrar con botón de cerrar
+document.querySelector(".close").addEventListener("click", function () {
+  document.getElementById("imageModal").classList.remove("mostrar");
+});
+
+// Cerrar haciendo clic fuera de la imagen
+document.getElementById("imageModal").addEventListener("click", function (e) {
+  if (e.target === this) {
+    this.classList.remove("mostrar");
+  }
+});
+
+// Cerrar con tecla ESC
+document.addEventListener("keydown", function (e) {
+  if (e.key === "Escape") {
+    document.getElementById("imageModal").classList.remove("mostrar");
+  }
+});
