@@ -1,16 +1,12 @@
 // Carrusel de imágenes y videos
 document.querySelectorAll('.tarjeta').forEach(tarjeta => {
-  const elementos = tarjeta.querySelectorAll('.clickable-image');
+  const carrusel = tarjeta.querySelector('.carrusel-imagenes');
+  const elementos = carrusel.querySelectorAll('video, img'); // SOLO imágenes y videos
   const izq = tarjeta.querySelector('.flecha.izq');
   const der = tarjeta.querySelector('.flecha.der');
 
   let index = Array.from(elementos).findIndex(el => el.classList.contains('activa'));
   if (index === -1) index = 0;
-  elementos.forEach((el, idx) => {
-    if (el.classList.contains('activa')) {
-      index = idx; // Encontramos quién tiene activa
-    }
-  });
 
   izq.addEventListener('click', () => {
     elementos[index].classList.remove('activa');
@@ -28,6 +24,7 @@ document.querySelectorAll('.tarjeta').forEach(tarjeta => {
     if (elementos[index].tagName === 'VIDEO') elementos[index].play();
   });
 });
+
 
 
 // Enviar mensaje a WhatsApp
