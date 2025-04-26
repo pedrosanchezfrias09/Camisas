@@ -1,18 +1,22 @@
 // Carrusel de imágenes y videos
 document.querySelectorAll('.tarjeta').forEach(tarjeta => {
-  const elementos = tarjeta.querySelectorAll('.clickable-image'); // ahora solo img y video con clase
+  const elementos = tarjeta.querySelectorAll('.clickable-image');
   const izq = tarjeta.querySelector('.flecha.izq');
   const der = tarjeta.querySelector('.flecha.der');
 
-  let index = Array.from(elementos).findIndex(el => el.classList.contains('activa'));
-  if (index === -1) index = 0; // seguridad
+  let index = 0; // AQUI IMPORTANTE: EMPEZAMOS en 0, NO busques quien tiene activa
+  elementos.forEach((el, idx) => {
+    if (el.classList.contains('activa')) {
+      index = idx; // Encontramos quién tiene activa
+    }
+  });
 
   izq.addEventListener('click', () => {
     elementos[index].classList.remove('activa');
-    if (elementos[index].tagName === 'VIDEO') elementos[index].pause(); // pausar si es video
+    if (elementos[index].tagName === 'VIDEO') elementos[index].pause();
     index = (index - 1 + elementos.length) % elementos.length;
     elementos[index].classList.add('activa');
-    if (elementos[index].tagName === 'VIDEO') elementos[index].play(); // reproducir si es video
+    if (elementos[index].tagName === 'VIDEO') elementos[index].play();
   });
 
   der.addEventListener('click', () => {
@@ -23,6 +27,7 @@ document.querySelectorAll('.tarjeta').forEach(tarjeta => {
     if (elementos[index].tagName === 'VIDEO') elementos[index].play();
   });
 });
+
 
 // Enviar mensaje a WhatsApp
 function enviarWhatsApp(boton) {
