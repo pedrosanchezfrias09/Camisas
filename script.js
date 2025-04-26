@@ -4,7 +4,8 @@ document.querySelectorAll('.tarjeta').forEach(tarjeta => {
   const izq = tarjeta.querySelector('.flecha.izq');
   const der = tarjeta.querySelector('.flecha.der');
 
-  let index = 0; // AQUI IMPORTANTE: EMPEZAMOS en 0, NO busques quien tiene activa
+  let index = Array.from(elementos).findIndex(el => el.classList.contains('activa'));
+  if (index === -1) index = 0;
   elementos.forEach((el, idx) => {
     if (el.classList.contains('activa')) {
       index = idx; // Encontramos quién tiene activa
