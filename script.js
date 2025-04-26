@@ -1,63 +1,100 @@
-// Carrusel de imágenes
+// Carrusel de imágenes y videos
 document.querySelectorAll('.tarjeta').forEach(tarjeta => {
-    const imgs = tarjeta.querySelectorAll('img, video');
-    const izq = tarjeta.querySelector('.flecha.izq');
-    const der = tarjeta.querySelector('.flecha.der');
-    let index = 0;
-  
-    izq.addEventListener('click', () => {
-      imgs[index].classList.remove('activa');
-      index = (index - 1 + imgs.length) % imgs.length;
-      imgs[index].classList.add('activa');
-    });
-  
-    der.addEventListener('click', () => {
-      imgs[index].classList.remove('activa');
-      index = (index + 1) % imgs.length;
-      imgs[index].classList.add('activa');
-    });
+  const elementos = tarjeta.querySelectorAll('.clickable-image'); // ahora solo img y video con clase
+  const izq = tarjeta.querySelector('.flecha.izq');
+  const der = tarjeta.querySelector('.flecha.der');
+
+  let index = Array.from(elementos).findIndex(el => el.classList.contains('activa'));
+  if (index === -1) index = 0; // seguridad
+
+  izq.addEventListener('click', () => {
+    elementos[index].classList.remove('activa');
+    if (elementos[index].tagName === 'VIDEO') elementos[index].pause(); // pausar si es video
+    index = (index - 1 + elementos.length) % elementos.length;
+    elementos[index].classList.add('activa');
+    if (elementos[index].tagName === 'VIDEO') elementos[index].play(); // reproducir si es video
   });
-  
-  // Enviar mensaje a WhatsApp
-  function enviarWhatsApp(boton) {
-    const tarjeta = boton.closest('.tarjeta');
-    const modelo = tarjeta.querySelector('.modelo').innerText.replace('Modelo: ', '');
-    const talla = tarjeta.querySelector('.talla').value;
-    const cantidad = tarjeta.querySelector('.cantidad').value;
-    const color = tarjeta.querySelector('.color').value;
-    const numeros = ['3335820075', '3318395891', '3334693557'];
-    const numero = numeros[Math.floor(Math.random() * numeros.length)];
-  
-    const mensaje = `Hola, quiero comprar la camisa modelo *${modelo}* en talla *${talla}*, en color *${color}* y cantidad *${cantidad}*.`;
-    const url = `https://wa.me/52${numero}?text=${encodeURIComponent(mensaje)}`;
-    window.open(url, '_blank');
-  }
-  
-// Mostrar el modal
-document.querySelectorAll('.clickable-image').forEach(img => {
-  img.addEventListener('click', function () {
+
+  der.addEventListener('click', () => {
+    elementos[index].classList.remove('activa');
+    if (elementos[index].tagName === 'VIDEO') elementos[index].pause();
+    index = (index + 1) % elementos.length;
+    elementos[index].classList.add('activa');
+    if (elementos[index].tagName === 'VIDEO') elementos[index].play();
+  });
+});
+
+// Enviar mensaje a WhatsApp
+function enviarWhatsApp(boton) {
+  const tarjeta = boton.closest('.tarjeta');
+  const modelo = tarjeta.querySelector('.modelo').innerText.replace('Modelo: ', '');
+  const talla = tarjeta.querySelector('.talla').value;
+  const cantidad = tarjeta.querySelector('.cantidad').value;
+  const color = tarjeta.querySelector('.color').value;
+  const numeros = ['3335820075', '3318395891', '3334693557'];
+  const numero = numeros[Math.floor(Math.random() * numeros.length)];
+
+  const mensaje = `Hola, quiero comprar la camisa modelo *${modelo}* en talla *${talla}*, en color *${color}* y cantidad *${cantidad}*.`;
+  const url = `https://wa.me/52${numero}?text=${encodeURIComponent(mensaje)}`;
+  window.open(url, '_blank');
+}
+
+// Mostrar el modal (para imágenes y videos)
+document.querySelectorAll('.clickable-image').forEach(el => {
+  el.addEventListener('click', function () {
     const modal = document.getElementById("imageModal");
     const modalImg = document.getElementById("modalImage");
+
     modal.classList.add("mostrar");
-    modalImg.src = this.src;
+
+    if (this.tagName === 'IMG') {
+      modalImg.src = this.src;
+      modalImg.style.display = "block";
+      modalImg.nextElementSibling?.remove?.(); // borra video si había
+    } else if (this.tagName === 'VIDEO') {
+      const nuevoVideo = document.createElement('video');
+      nuevoVideo.src = this.querySelector('source').src;
+      nuevoVideo.autoplay = true;
+      nuevoVideo.loop = true;
+      nuevoVideo.muted = true;
+      nuevoVideo.controls = true;
+      nuevoVideo.style.maxWidth = "90%";
+      nuevoVideo.style.maxHeight = "90%";
+      modalImg.style.display = "none";
+      modalImg.parentElement.appendChild(nuevoVideo);
+    }
   });
 });
 
-// Cerrar con botón de cerrar
+// Cerrar modal con botón de cerrar
 document.querySelector(".close").addEventListener("click", function () {
-  document.getElementById("imageModal").classList.remove("mostrar");
+  cerrarModal();
 });
 
-// Cerrar haciendo clic fuera de la imagen
+// Cerrar modal haciendo clic fuera de la imagen
 document.getElementById("imageModal").addEventListener("click", function (e) {
   if (e.target === this) {
-    this.classList.remove("mostrar");
+    cerrarModal();
   }
 });
 
-// Cerrar con tecla ESC
+// Cerrar modal con tecla ESC
 document.addEventListener("keydown", function (e) {
   if (e.key === "Escape") {
-    document.getElementById("imageModal").classList.remove("mostrar");
+    cerrarModal();
   }
 });
+
+// Función para cerrar y limpiar el modal
+function cerrarModal() {
+  const modal = document.getElementById("imageModal");
+  const modalImg = document.getElementById("modalImage");
+  modal.classList.remove("mostrar");
+
+  // Borrar cualquier video que hayamos creado
+  const videos = modal.querySelectorAll('video');
+  videos.forEach(video => video.remove());
+
+  modalImg.style.display = "block"; // vuelve a mostrar imagen por si era video antes
+  modalImg.src = "";
+}
