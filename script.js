@@ -1,6 +1,6 @@
 // Carrusel de imágenes
 document.querySelectorAll('.tarjeta').forEach(tarjeta => {
-    const imgs = tarjeta.querySelectorAll('img');
+    const imgs = tarjeta.querySelectorAll('img, video');
     const izq = tarjeta.querySelector('.flecha.izq');
     const der = tarjeta.querySelector('.flecha.der');
     let index = 0;
