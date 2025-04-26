@@ -45,7 +45,7 @@ body {
 .carrusel-imagenes {
   position: relative;
   width: 100%;
-  padding-top: 100%; /* Mantiene proporción cuadrada */
+  padding-top: 100%; /* Cuadrado perfecto */
   overflow: hidden;
   border-radius: 0.5rem;
   margin-bottom: 1rem;
@@ -58,7 +58,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: cover; /* Llena sin deformar, respeta cuadrado */
   display: none;
   transition: opacity 0.3s ease, transform 0.5s ease;
 }
@@ -70,7 +70,7 @@ body {
 
 .carrusel-imagenes img:hover,
 .carrusel-imagenes video:hover {
-  transform: scale(1.05); /* Efecto zoom suave al pasar el mouse */
+  transform: scale(1.05); /* Zoom suave al pasar mouse */
 }
 
 .flecha {
@@ -125,6 +125,8 @@ select {
   background-color: #1ebe5d;
 }
 
+/* --- Modal para imagen en grande --- */
+
 .modal {
   display: none;
   position: fixed;
@@ -138,7 +140,6 @@ select {
   align-items: center;
 }
 
-/* cuando el modal está abierto, aplicamos flex */
 .modal.mostrar {
   display: flex;
   animation: fadeIn 0.3s ease forwards;
@@ -147,8 +148,12 @@ select {
 .modal-content {
   max-width: 90%;
   max-height: 90%;
+  width: auto;
+  height: auto;
   animation: zoomIn 0.3s;
   border-radius: 10px;
+  display: block;
+  object-fit: contain;
 }
 
 .close {
@@ -161,10 +166,19 @@ select {
   z-index: 10001;
 }
 
+/* --- Animaciones del modal --- */
+
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
 }
+
+@keyframes zoomIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* --- Responsive ajustes para celular --- */
 
 @media (max-width: 600px) {
   .tarjeta {
