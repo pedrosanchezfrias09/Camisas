@@ -1,167 +1,173 @@
 body {
-    margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background-color: #121212;
-    color: #f5f5f5;
-  }
-  
-  .titulo {
-    text-align: center;
-    margin: 2rem;
-    font-size: 2rem;
-  }
-  
-  .seccion {
-    margin: 2rem 1rem;
-  }
-  
-  .titulo-seccion {
-    margin-bottom: 1rem;
-    font-size: 1.5rem;
-  }
-  
-  .carrusel-seccion {
-    display: flex;
-    overflow-x: auto;
-    gap: 1rem;
-    scroll-snap-type: x mandatory;
-    padding-bottom: 1rem;
-  }
-  
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #121212;
+  color: #f5f5f5;
+}
+
+.titulo {
+  text-align: center;
+  margin: 2rem;
+  font-size: 2rem;
+}
+
+.seccion {
+  margin: 2rem 1rem;
+}
+
+.titulo-seccion {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.carrusel-seccion {
+  display: flex;
+  overflow-x: auto;
+  gap: 1rem;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 1rem;
+}
+
+.tarjeta {
+  background: #1e1e1e;
+  border-radius: 1rem;
+  padding: 1rem;
+  min-width: 300px;
+  scroll-snap-align: start;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease;
+}
+
+.tarjeta:hover {
+  transform: scale(1.02);
+}
+
+.carrusel-imagenes {
+  position: relative;
+  width: 100%;
+  padding-top: 100%; /* Mantiene proporción cuadrada */
+  overflow: hidden;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.carrusel-imagenes img,
+.carrusel-imagenes video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none;
+  transition: opacity 0.3s ease, transform 0.5s ease;
+}
+
+.carrusel-imagenes img.activa,
+.carrusel-imagenes video.activa {
+  display: block;
+}
+
+.carrusel-imagenes img:hover,
+.carrusel-imagenes video:hover {
+  transform: scale(1.05); /* Efecto zoom suave al pasar el mouse */
+}
+
+.flecha {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  padding: 0.2rem 0.5rem;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.flecha.izq {
+  left: 0.5rem;
+}
+
+.flecha.der {
+  right: 0.5rem;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+select {
+  margin-left: 0.5rem;
+  padding: 0.3rem;
+  border-radius: 0.3rem;
+  border: none;
+  background-color: #2a2a2a;
+  color: white;
+}
+
+.whatsapp {
+  margin-top: 0.5rem;
+  background-color: #25d366;
+  color: white;
+  border: none;
+  padding: 0.6rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.whatsapp:hover {
+  background-color: #1ebe5d;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.9);
+  justify-content: center;
+  align-items: center;
+}
+
+/* cuando el modal está abierto, aplicamos flex */
+.modal.mostrar {
+  display: flex;
+  animation: fadeIn 0.3s ease forwards;
+}
+
+.modal-content {
+  max-width: 90%;
+  max-height: 90%;
+  animation: zoomIn 0.3s;
+  border-radius: 10px;
+}
+
+.close {
+  position: absolute;
+  top: 20px;
+  right: 35px;
+  font-size: 40px;
+  color: white;
+  cursor: pointer;
+  z-index: 10001;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (max-width: 600px) {
   .tarjeta {
-    background: #1e1e1e;
-    border-radius: 1rem;
-    padding: 1rem;
-    min-width: 300px;
-    scroll-snap-align: start;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    transition: transform 0.3s ease;
+    min-width: 60vw;
   }
-  
-  .tarjeta:hover {
-    transform: scale(1.02);
-  }
-  
-  .carrusel-imagenes {
-    position: relative;
-    height: 250px;
-    overflow: hidden;
-    border-radius: 0.5rem;
-    margin-bottom: 1rem;
-  }
-  
-  .carrusel-imagenes img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: none;
-    position: absolute;
-    transition: opacity 0.3s ease;
-  }
-  
-  .carrusel-imagenes img.activa {
-    display: block;
-    position: relative;
-  }
-  
-  .flecha {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(255, 255, 255, 0.1);
-    border: none;
-    color: white;
-    font-size: 1.5rem;
-    padding: 0.2rem 0.5rem;
-    cursor: pointer;
-    z-index: 1;
-  }
-  
-  .flecha.izq {
-    left: 0.5rem;
-  }
-  
-  .flecha.der {
-    right: 0.5rem;
-  }
-  
-  .info {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    align-items: center;
-  }
-  
-  select {
-    margin-left: 0.5rem;
-    padding: 0.3rem;
-    border-radius: 0.3rem;
-    border: none;
-    background-color: #2a2a2a;
-    color: white;
-  }
-  
-  .whatsapp {
-    margin-top: 0.5rem;
-    background-color: #25d366;
-    color: white;
-    border: none;
-    padding: 0.6rem;
-    border-radius: 0.5rem;
-    cursor: pointer;
-    transition: background 0.3s ease;
-  }
-  
-  .whatsapp:hover {
-    background-color: #1ebe5d;
-  }
-  .modal {
-    display: none;
-    position: fixed;
-    z-index: 9999;
-    left: 0;
-    top: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.9);
-    justify-content: center;
-    align-items: center;
-  }
-  
-  /* cuando el modal está abierto, aplicamos flex */
-  .modal.mostrar {
-    display: flex;
-    animation: fadeIn 0.3s ease forwards;
-  }
-  
-  .modal-content {
-    max-width: 90%;
-    max-height: 90%;
-    animation: zoomIn 0.3s;
-    border-radius: 10px;
-  }
-  
-  .close {
-    position: absolute;
-    top: 20px;
-    right: 35px;
-    font-size: 40px;
-    color: white;
-    cursor: pointer;
-    z-index: 10001;
-  }
-  
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-  
-  
-  
-  @media (max-width: 600px) {
-    .tarjeta {
-      min-width: 60vw;
-    }
-  }
-  
-  
+}
